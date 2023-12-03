@@ -7,15 +7,15 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug executable 'warp-websockets-example'",
+      "name": "Debug executable 'wsserver'",
       "cargo": {
         "args": [
           "build",
-          "--bin=warp-websockets-example",
-          "--package=warp-websockets-example"
+          "--bin=wsserver",
+          "--package=wsserver"
         ],
         "filter": {
-          "name": "warp-websockets-example",
+          "name": "wsserver",
           "kind": "bin"
         }
       },
@@ -25,16 +25,16 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug unit tests in executable 'warp-websockets-example'",
+      "name": "Debug unit tests in executable 'wsserver'",
       "cargo": {
         "args": [
           "test",
           "--no-run",
-          "--bin=warp-websockets-example",
-          "--package=warp-websockets-example"
+          "--bin=wsserver",
+          "--package=wsserver"
         ],
         "filter": {
-          "name": "warp-websockets-example",
+          "name": "wsserver",
           "kind": "bin"
         }
       },

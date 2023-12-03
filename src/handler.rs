@@ -102,3 +102,21 @@ pub async fn remove_topic(body: TopicActionRequest, clients: Clients) -> Result<
     }
     Ok(warp::reply::with_status("Removed topic successfully", StatusCode::OK))
 }
+
+#[derive(Deserialize)]
+pub struct GetUserTopicsRequest {
+    user_id: usize,
+}
+
+pub async fn get_user_topics_handler(body: GetUserTopicsRequest, clients: Clients) -> Result<impl Reply> {
+    let user_id = body.user_id;
+    let topics = clients
+        .read().await
+        .values()
+        .filter(|client| client.user_id == user_id)
+        .flat_map(|client| &client.topics)
+        .cloned()
+        .collect::<Vec<String>>();
+
+    Ok(json(&topics))
+}

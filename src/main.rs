@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::convert::Infallible;
 use std::sync::Arc;
-use handler::TopicActionRequest;
+use handler::{TopicActionRequest, get_user_topics_handler, GetUserTopicsRequest};
 use tokio::sync::{mpsc, RwLock};
 use warp::{ws::Message, Filter, Rejection};
 use crate::handler::{add_topic, remove_topic};
@@ -62,12 +62,20 @@ async fn main() {
         .and(warp::any().map(move || clients_for_remove.clone()))
         .and_then(remove_topic);
         
+    let get_user_topics_route = warp::path!("topics")
+        .and(warp::post())
+        .and(warp::body::json())
+        .and(with_clients(clients.clone()))
+        .and_then(get_user_topics_handler);
+    
+
     let routes = health_route
         .or(register_routes)
         .or(ws_route)
         .or(publish)
         .or(add_topic_route)
         .or(remove_topic_route)
+        .or(get_user_topics_route)
         .with(warp::cors().allow_any_origin());
 
 
